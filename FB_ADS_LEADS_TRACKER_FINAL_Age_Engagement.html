@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facebook Ads Lead Tracker — Updated</title>
+<style>
+:root{--bg:#f4f6fb;--panel:#fff;--ink:#182230;--muted:#667085;--line:#e6eaf0;--blue:#2563eb;--blue2:#eff6ff;--green:#15803d;--amber:#b45309;--red:#b91c1c;--shadow:0 8px 28px rgba(16,24,40,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:9px 12px;font-weight:650}
+.app{max-width:1440px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:13px;background:#2563eb;color:white;display:grid;place-items:center;font-weight:900;font-size:19px}.brand h1{font-size:21px;margin:0}.sub{color:var(--muted);font-size:12px}.primary{background:var(--blue);color:#fff}.secondary{background:#eef2f7;color:#344054}.danger{background:#fef2f2;color:var(--red)}.outline{background:#fff;border:1px solid var(--line);color:#344054}.small{padding:6px 9px;font-size:12px}.stats{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:12px;margin-bottom:18px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.stat{padding:0;overflow:hidden}.dashboard-card{display:block;width:100%;height:100%;padding:15px;text-align:left;background:#fff;color:var(--ink);border:0;border-radius:14px;cursor:pointer}.dashboard-card:hover{background:#f8fbff;box-shadow:inset 0 0 0 2px #93c5fd}.stat .n{font-size:25px;font-weight:800;margin-top:4px}.stat .label{color:var(--muted);font-size:12px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:14px}.toolbar input{max-width:310px;flex:1}.field, input,select,textarea{border:1px solid #d8dee8;border-radius:9px;padding:9px 10px;background:#fff;color:var(--ink);width:100%;min-width:0}.toolbar select{width:auto;min-width:165px}.panel{overflow:hidden}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#667085;background:#fafbfc;position:sticky;top:0}td{font-size:13px}tr:last-child td{border-bottom:0}.name{font-weight:750}.muted{color:var(--muted)}.status{display:inline-block;padding:5px 9px;border-radius:30px;font-size:11px;font-weight:750;white-space:nowrap;background:#eef2ff;color:#3730a3}.s-Inquiry{background:#fef3c7;color:#92400e}.s-For-Follow-up{background:#ffedd5;color:#9a3412}.s-Setting-of-Appointment{background:#fce7f3;color:#9d174d}.s-For-Presentation{background:#dbeafe;color:#1d4ed8}.s-Presented{background:#ede9fe;color:#6d28d9}.s-For-Closing{background:#dcfce7;color:#166534}.s-Closed{background:#fee2e2;color:#991b1b}.s-Archived-Leads{background:#e5e7eb;color:#374151}.actions{display:flex;gap:5px;flex-wrap:wrap}.link{color:var(--blue);text-decoration:none}.empty{text-align:center;padding:44px;color:var(--muted)}.modal-back{position:fixed;inset:0;background:rgba(16,24,40,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:5}.modal{background:white;width:min(820px,100%);max-height:92vh;overflow:auto;border-radius:16px;box-shadow:0 20px 70px #0003}.modal-head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-body{padding:20px 22px}.modal-foot{padding:15px 22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.group{display:flex;flex-direction:column;gap:5px}.group label{font-size:12px;font-weight:700;color:#475467}.wide{grid-column:1/-1}.section{font-weight:800;margin:20px 0 10px;padding-top:14px;border-top:1px solid var(--line)}.hint{font-size:11px;color:var(--muted)}.activity{border-left:2px solid #dbeafe;margin:10px 0 0 6px;padding:0 0 14px 15px}.activity strong{display:block}.note{background:#f8fafc;border:1px solid var(--line);padding:10px;border-radius:9px;white-space:pre-wrap}.overdue{color:var(--red);font-weight:750}.due{color:var(--amber);font-weight:700}.hidden{display:none!important}.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}.tab{background:#fff;border:1px solid var(--line);color:#475467}.tab.active{box-shadow:inset 0 0 0 2px currentColor;font-weight:800}.status-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}.status-tab{border:1px solid transparent;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:750;display:inline-flex;align-items:center;gap:7px}.status-tab .count{background:#ffffffb8;border-radius:99px;padding:1px 6px;font-size:10px}.status-tab.active{outline:2px solid currentColor;outline-offset:1px}.st-all{background:#eef2f7;color:#344054;border-color:#d0d5dd}.st-inquiry{background:#fef3c7;color:#92400e;border-color:#fcd34d}.st-follow{background:#ffedd5;color:#9a3412;border-color:#fdba74}.st-appointment{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}.st-presentation{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}.st-presented{background:#ede9fe;color:#6d28d9;border-color:#c4b5fd}.st-closing{background:#dcfce7;color:#166534;border-color:#86efac}.st-closed{background:#fee2e2;color:#991b1b;border-color:#fca5a5}.st-archived{background:#e5e7eb;color:#374151;border-color:#9ca3af}.toast{position:fixed;bottom:20px;right:20px;background:#101828;color:white;padding:12px 16px;border-radius:10px;display:none;z-index:9;box-shadow:var(--shadow)}.footer{margin-top:13px;color:var(--muted);font-size:11px}
+@media(max-width:800px){.app{padding:14px}.stats{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.toolbar input{max-width:none;min-width:100%}.stat:last-child{grid-column:span 2}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">L</div><div><h1>Facebook Ads Lead Tracker</h1><div class="sub">Personal lead pipeline · Follow-ups · Appointments · Production</div></div></div>
+    <div class="actions"><button class="outline" id="exportBtn">Export CSV</button><button class="primary" id="addBtn">＋ Add lead</button></div>
+  </header>
+  <section class="stats" id="stats" aria-label="Clickable lead dashboard"></section>
+  <section class="panel" id="birthdayPanel" style="padding:16px;margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><b id="birthdayTitle">Birthday reminders</b><div class="sub">Leads celebrating a birthday this month</div></div><span class="status s-For-Presentation" id="birthdayMonth"></span></div><div id="birthdayList" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"></div></section>
+  <div class="tabs"><button class="tab active" data-view="leads">Lead pipeline</button><button class="tab" data-view="followups">Follow-up schedule</button><button class="tab" data-view="archived">Archived Leads <span class="count" id="count-Archived-Leads">0</span></button></div>
+  <div class="status-tabs" id="statusTabs" aria-label="Filter leads by status">
+    <button class="status-tab st-all active" data-status="">All leads <span class="count" id="count-all">0</span></button>
+    <button class="status-tab st-inquiry" data-status="Inquiry">Inquiry <span class="count" id="count-Inquiry">0</span></button>
+    <button class="status-tab st-follow" data-status="For Follow up">For Follow Up <span class="count" id="count-For-Follow-up">0</span></button>
+    <button class="status-tab st-appointment" data-status="Setting of Appointment">Setting of Appointment <span class="count" id="count-Setting-of-Appointment">0</span></button>
+    <button class="status-tab st-presentation" data-status="For Presentation">For Presentation <span class="count" id="count-For-Presentation">0</span></button>
+    <button class="status-tab st-presented" data-status="Presented">Presented <span class="count" id="count-Presented">0</span></button>
+    <button class="status-tab st-closing" data-status="For Closing">For Closing <span class="count" id="count-For-Closing">0</span></button>
+    <button class="status-tab st-closed" data-status="Closed">Closed <span class="count" id="count-Closed">0</span></button>
+
+  </div>
+  <div class="sub" style="margin:0 0 12px">Follow-up routing: approaching or recording a no-show adds the lead to the <b>For Follow up</b> queue while preserving its original pipeline status. Manually changing the status clears that queue.</div>
+  <div class="toolbar">
+    <input id="search" placeholder="Search name, mobile, occupation…">
+    <select id="filter"><option value="">All statuses</option></select>
+    <select id="monthFilter"><option value="">All inquiry months</option></select><select id="ageFilter"><option value="">All ages</option><option value="18-25">18–25</option><option value="26-35">26–35</option><option value="36-45">36–45</option><option value="46-55">46–55</option><option value="56-65">56–65</option><option value="66+">66+</option><option value="unknown">No age recorded</option></select><select id="sort"><option value="updated">Recently updated</option><option value="name">Name A–Z</option><option value="inquiryNewest">Inquiry date: newest</option><option value="inquiryOldest">Inquiry date: oldest</option><option value="followup">Next follow-up</option><option value="ageAsc">Age: youngest first</option><option value="ageDesc">Age: oldest first</option></select>
+    <button class="outline" id="clearFilters">Clear filters</button>
+  </div>
+  <section class="panel">
+    <div class="table-wrap"><table><thead id="leadHead"></thead><tbody id="leadRows"></tbody></table></div>
+    <div class="empty hidden" id="empty">No leads yet. Select <b>Add lead</b> to create your first record.</div>
+  </section>
+  <div class="footer"><b id="storageStatus">Checking browser storage…</b><br>Your records are saved in this Chrome profile on this device. Export CSV regularly as a backup.</div>
+</div>
+
+<div class="modal-back" id="modalBack"><div class="modal">
+  <div class="modal-head"><div><b id="modalTitle">Add lead</b><div class="sub">Lead details and status-specific information</div></div><button class="outline small" id="closeModal">✕</button></div>
+  <form id="leadForm">
+    <div class="modal-body">
+      <input type="hidden" id="leadId">
+      <div class="section" style="margin-top:0">Lead information</div>
+      <div class="grid">
+        <div class="group"><label for="name">Name *</label><input id="name" required placeholder="Full name"></div>
+        <div class="group"><label for="inquiryDate">Inquiry Month and Year *</label><input id="inquiryDate" type="month" required><span class="hint">Select only the month and year the lead inquired.</span></div>
+        <div class="group"><label for="mobile">Mobile Number</label><input id="mobile" type="tel" placeholder="+63…"></div>
+        <div class="group"><label for="facebook">Facebook Account Link</label><input id="facebook" type="url" placeholder="https://facebook.com/…"></div>
+        <div class="group"><label for="messenger">Messenger Link</label><input id="messenger" type="url" placeholder="https://m.me/…"></div>
+        <div class="group"><label for="birthdate">Birthdate</label><input id="birthdate" type="date"></div>
+        <div class="group"><label for="occupation">Occupation</label><input id="occupation"></div>
+        <div class="group wide"><label for="address">Address</label><textarea id="address" rows="2"></textarea></div>
+        <div class="group"><label for="status">Current status</label><select id="status"></select></div>
+        <div class="group"><label for="nextFollow">Next follow-up date</label><input id="nextFollow" type="date"></div>
+      </div>
+      <div id="conditionalFields"></div>
+      <div class="section">Notes</div>
+      <div class="group"><label for="generalNotes">Lead notes</label><textarea id="generalNotes" rows="3" placeholder="Additional context…"></textarea></div>
+    </div>
+    <div class="modal-foot"><button type="button" class="danger" id="deleteBtn">Delete lead</button><div class="actions"><button type="button" class="outline" id="cancelBtn">Cancel</button><button type="submit" class="primary">Save lead</button></div></div>
+  </form>
+</div></div>
+<div class="modal-back" id="activityBack"><div class="modal" style="width:min(650px,100%)"><div class="modal-head"><div><b id="activityTitle">Lead activity</b><div class="sub">A dated history of actions and status changes</div></div><button class="outline small" id="closeActivity">✕</button></div><div class="modal-body" id="activityBody"></div><div class="modal-foot"><span class="hint">Activity records are retained when the status changes.</span><button class="outline" id="closeActivity2">Close</button></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const STATUSES=['Inquiry','For Follow up','Setting of Appointment','For Presentation','Presented','For Closing','Closed'];
+const KEY='fbAdsLeadTracker.v1';
+let leads=[], view='leads';
+let dbPromise=null;
+const $=id=>document.getElementById(id);
+function openDatabase(){
+  if(dbPromise) return dbPromise;
+  dbPromise=new Promise((resolve,reject)=>{
+    if(!('indexedDB' in window)){reject(new Error('IndexedDB unavailable'));return;}
+    const request=indexedDB.open('FacebookAdsLeadTrackerDB',1);
+    request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains('records'))db.createObjectStore('records');};
+    request.onsuccess=()=>resolve(request.result);
+    request.onerror=()=>reject(request.error||new Error('Could not open database'));
+    request.onblocked=()=>reject(new Error('Database opening blocked'));
+  });
+  return dbPromise;
+}
+async function load(){
+  let localRecords=null, dbRecords=null;
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw!==null){
+      const parsed=JSON.parse(raw);
+      if(Array.isArray(parsed)) localRecords=parsed;
+    }
+  }catch(e){console.warn('Local storage read failed:',e);}
+  try{
+    const db=await openDatabase();
+    dbRecords=await new Promise((resolve,reject)=>{
+      const tx=db.transaction('records','readonly');
+      const req=tx.objectStore('records').get(KEY);
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error);
+    });
+    if(!Array.isArray(dbRecords)) dbRecords=null;
+  }catch(e){console.warn('IndexedDB read failed:',e);}
+  // Prefer the copy containing more leads so an empty/stale database cannot hide saved records.
+  const chosen=(localRecords||[]).length >= (dbRecords||[]).length ? (localRecords||[]) : (dbRecords||[]);
+  return chosen;
+}
+async function save(){
+  const payload=JSON.stringify(leads);
+  let localOK=false, dbOK=false, errors=[];
+  try{
+    localStorage.setItem(KEY,payload);
+    localOK=localStorage.getItem(KEY)===payload;
+    if(!localOK) throw new Error('Local storage verification failed');
+  }catch(e){errors.push('Local storage: '+(e.message||e));}
+  try{
+    const db=await openDatabase();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction('records','readwrite');
+      tx.objectStore('records').put(JSON.parse(payload),KEY);
+      tx.oncomplete=resolve;
+      tx.onerror=()=>reject(tx.error||new Error('Database write failed'));
+      tx.onabort=()=>reject(tx.error||new Error('Database write aborted'));
+    });
+    dbOK=true;
+  }catch(e){errors.push('IndexedDB: '+(e.message||e));}
+  if(!localOK && !dbOK){
+    console.error('Both browser storage methods failed:',errors);
+    toast('NOT SAVED: '+errors.join(' | ').slice(0,180));
+    return false;
+  }
+  render();
+  const indicator=$('storageStatus');
+  if(indicator) indicator.textContent=localOK&&dbOK?'Saved on this device ✓':localOK?'Saved in Chrome storage ✓':'Saved in browser database ✓';
+  return true;
+}
+function makeId(){
+  if(globalThis.crypto && typeof globalThis.crypto.randomUUID==='function') return globalThis.crypto.randomUUID();
+  return 'lead-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
+}
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function addDays(date,n){const d=new Date((date||today())+'T12:00:00');d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function fmt(v){if(!v)return '—';return new Date(v+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}
+function fmtMonthYear(v){if(!v)return '—';return new Date(v+'T12:00:00').toLocaleDateString(undefined,{month:'long',year:'numeric'})}
+function getAge(birthdate){
+ if(!birthdate)return null;
+ const b=new Date(birthdate+'T12:00:00'),now=new Date();
+ if(Number.isNaN(b.getTime())||b>now)return null;
+ let age=now.getFullYear()-b.getFullYear();
+ if(now.getMonth()<b.getMonth()||(now.getMonth()===b.getMonth()&&now.getDate()<b.getDate()))age--;
+ return age>=0?age:null;
+}
+function getLastEngagement(l){
+ if(l.lastEngagementAt)return {at:l.lastEngagementAt,type:l.lastEngagementType||'Engagement'};
+ const h=(l.history||[]).find(x=>['Approach','Approached','Call','No show'].includes(x.type));
+ return h?{at:h.at,type:h.type}:null;
+}
+function stamp(){return new Date().toISOString()}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function cls(s){return 's-'+s.replaceAll(' ','-')}
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2400)}
+function log(l,type,detail){l.history=l.history||[];l.history.unshift({at:stamp(),type,detail:detail||''})}
+function statusOptions(selected){return STATUSES.map(s=>`<option ${s===selected?'selected':''}>${s}</option>`).join('')}
+function renderStats(){
+ const active=leads.filter(l=>!l.archived);
+ const count=s=>s==='For Follow up'?active.filter(l=>l.status==='For Follow up'||l.queue==='For Follow up').length:active.filter(l=>l.status===s).length;
+ const ape=active.filter(l=>l.status==='Closed').reduce((a,l)=>a+(Number(l.ape)||0),0);
+ const presentedAPE=active.filter(l=>l.status==='Presented').reduce((a,l)=>a+(Number(l.targetAPE)||0),0);
+ const closingAPE=active.filter(l=>l.status==='For Closing').reduce((a,l)=>a+(Number(l.targetAPE)||0),0);
+ const pipelineAPE=presentedAPE+closingAPE;
+ const money=n=>'₱'+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+ const birthdays=active.filter(l=>l.birthdate&&Number(l.birthdate.slice(5,7))===new Date().getMonth()+1).length;
+ const cards=[
+  ['Total leads',active.length,''],
+  ['For follow up',count('For Follow up'),'For Follow up'],
+  ['Appointments',count('Setting of Appointment'),'Setting of Appointment'],
+  ['Presented · Projected APE',money(presentedAPE),'Presented'],
+  ['For Closing · Projected APE',money(closingAPE),'For Closing'],
+  ['Total pipeline APE',money(pipelineAPE),'pipeline'],
+  ['Closed leads',count('Closed'),'Closed'],
+  ['Closed APE',money(ape),'Closed'],
+  ['Birthdays this month',birthdays,'birthdays']
+ ];
+ $('stats').innerHTML=cards.map(([label,value,target])=>`<div class="stat"><button type="button" class="dashboard-card" ${target?`onclick="dashboardNavigate('${target}')"`:''}><div class="label">${label}</div><div class="n">${value}</div>${target?'<div class="hint">Click to view</div>':'<div class="hint">All active leads</div>'}</button></div>`).join('');
+ renderBirthdayReminders(active);
+}
+function renderBirthdayReminders(active=leads.filter(l=>!l.archived)){
+ const now=new Date(),month=now.getMonth(),year=now.getFullYear();
+ const birthdays=active.filter(l=>l.birthdate&&Number(l.birthdate.slice(5,7))===month+1)
+  .map(l=>({...l,nextBirthday:new Date(year,month,Number(l.birthdate.slice(8,10)))}))
+  .sort((a,b)=>a.nextBirthday-b.nextBirthday);
+ $('birthdayMonth').textContent=now.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+ $('birthdayTitle').textContent=`Birthday reminders · ${birthdays.length}`;
+ $('birthdayList').innerHTML=birthdays.length?birthdays.map(l=>`<button type="button" class="outline small" onclick="editLead('${l.id}')" title="Open lead details">${esc(l.name)} · ${l.nextBirthday.toLocaleDateString(undefined,{month:'short',day:'numeric'})}</button>`).join(''):'<span class="muted">No birthdays recorded for this month yet. Add a birthdate to a lead to see the reminder here.</span>';
+}
+function dashboardNavigate(target){
+ if(target==='birthdays'){
+  $('birthdayPanel').scrollIntoView({behavior:'smooth',block:'center'});
+  $('birthdayPanel').style.boxShadow='0 0 0 2px #93c5fd';
+  setTimeout(()=>$('birthdayPanel').style.boxShadow='',1500);
+  return;
+ }
+ view='leads';
+ $('filter').value=target==='pipeline'?'':target;
+ $('search').value='';
+ $('monthFilter').value='';
+ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view==='leads'));
+ render();
+ $('leadHead').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function render(){
+ refreshMonthFilter();
+ renderStats();
+ const activeStatus=$('filter').value;
+ $('count-all').textContent=leads.filter(l=>!l.archived).length;
+ $('count-Archived-Leads').textContent=leads.filter(l=>l.archived).length;
+ STATUSES.forEach(s=>{const el=$('count-'+s.replaceAll(' ','-'));if(el)el.textContent=(s==='For Follow up'?leads.filter(l=>(l.status==='For Follow up'||l.queue==='For Follow up')&&!l.archived):leads.filter(l=>l.status===s&&!l.archived)).length});
+ document.querySelectorAll('.status-tab').forEach(b=>b.classList.toggle('active',view!=='archived'&&b.dataset.status===activeStatus));
+ const q=$('search').value.toLowerCase(),f=$('filter').value,month=$('monthFilter').value,ageBand=$('ageFilter').value,sort=$('sort').value;
+ let rows=leads.filter(l=>(view==='archived'?!!l.archived:!l.archived)&&(!f||(f==='For Follow up'?(l.status==='For Follow up'||l.queue==='For Follow up'):l.status===f))&&(!month||(l.inquiryDate||'').slice(0,7)===month)&&(!ageBand||(()=>{const a=getAge(l.birthdate);if(ageBand==='unknown')return a===null;if(a===null)return false;if(ageBand==='66+')return a>=66;const [lo,hi]=ageBand.split('-').map(Number);return a>=lo&&a<=hi;})())&&(!q||[l.name,l.mobile,l.occupation,l.address].join(' ').toLowerCase().includes(q)));
+ if(view==='followups')rows=rows.filter(l=>l.nextFollow&&(l.status!=='Closed'||l.queue==='For Follow up')).sort((a,b)=>(a.nextFollow||'').localeCompare(b.nextFollow||''));
+ else if(sort==='name')rows.sort((a,b)=>a.name.localeCompare(b.name));
+ else if(sort==='inquiryNewest')rows.sort((a,b)=>(b.inquiryDate||'').localeCompare(a.inquiryDate||''));
+ else if(sort==='inquiryOldest')rows.sort((a,b)=>(a.inquiryDate||'9999-99-99').localeCompare(b.inquiryDate||'9999-99-99'));
+ else if(sort==='followup')rows.sort((a,b)=>(a.nextFollow||'9999').localeCompare(b.nextFollow||'9999'));
+ else if(sort==='ageAsc')rows.sort((a,b)=>(getAge(a.birthdate)??999)-(getAge(b.birthdate)??999));
+ else if(sort==='ageDesc')rows.sort((a,b)=>(getAge(b.birthdate)??-1)-(getAge(a.birthdate)??-1));
+ else rows.sort((a,b)=>(b.updated||'').localeCompare(a.updated||''));
+
+ let detailHeaders='';
+ if(view!=='archived' && activeStatus==='For Presentation')detailHeaders='<th>Appointment date</th>';
+ if(view!=='archived' && ['Presented','For Closing'].includes(activeStatus))detailHeaders='<th>Date presented</th><th>Projected plan</th><th>Projected APE</th><th>Date of closing</th><th>Reason not closed yet</th>';
+ $('leadHead').innerHTML='<tr><th>Lead</th><th>Age</th><th>Inquiry month</th><th>Contact</th><th>Status</th><th>Follow-up queue</th><th>Next follow-up</th><th>Last engagement</th>'+detailHeaders+'<th>Quick action</th><th>Actions</th></tr>';
+
+ $('leadRows').innerHTML=rows.map(l=>{
+  const overdue=l.nextFollow&&l.nextFollow<today()&&l.status!=='Closed';
+  let quick='';
+  if(l.status==='Inquiry' && l.queue!=='For Follow up')quick=`<button class="primary small" onclick="action('${l.id}','Approach')">Approach</button>`;
+  if(l.queue==='For Follow up'||l.status==='For Follow up'||l.status==='Setting of Appointment')quick=`<button class="primary small" onclick="action('${l.id}','Approached')">Approached</button><button class="outline small" onclick="action('${l.id}','Call')">Call</button>`;
+  if(['Presented','For Closing'].includes(l.status))quick=`<button class="primary small" onclick="action('${l.id}','Approached')">Approached</button><button class="outline small" onclick="action('${l.id}','Call')">Call</button>`;
+  if(l.status==='For Presentation' && l.queue!=='For Follow up')quick=`<button class="outline small" onclick="noShow('${l.id}')">No show</button>`;
+  const details = view!=='archived' && activeStatus==='For Presentation'
+    ? `<td>${fmt(l.appointmentDate)}</td>`
+    : view!=='archived' && ['Presented','For Closing'].includes(activeStatus)
+      ? `<td>${fmt(l.presentedDate)}</td><td>${esc(l.targetPlan||'—')}</td><td>${l.targetAPE?Number(l.targetAPE).toLocaleString(): '—'}</td><td>${fmt(l.closingDate)}</td><td>${esc(l.reasonNotClosed||'—')}</td>`
+      : '';
+  const archiveAction = l.archived
+    ? `<button class="outline small" onclick="archiveLead('${l.id}',false)">Restore</button>`
+    : `<button class="outline small" onclick="archiveLead('${l.id}',true)">Archive</button>`;
+  const age=getAge(l.birthdate),engagement=getLastEngagement(l);
+  const engagementCell=engagement?`<div><b>${esc(engagement.type)}</b></div><div class="muted">${new Date(engagement.at).toLocaleString()}</div>`:'<span class="muted">No engagement recorded</span>';
+  return `<tr><td><div class="name">${esc(l.name)}</div><div class="muted">${esc(l.occupation||'')}</div></td><td>${age===null?'—':age+' yrs'}</td><td>${l.inquiryDate?fmtMonthYear(l.inquiryDate):'—'}</td><td>${l.mobile?`<a class="link" href="tel:${esc(l.mobile)}">${esc(l.mobile)}</a>`:'—'}<div>${l.facebook?`<a class="link" target="_blank" rel="noopener" href="${esc(l.facebook)}">Facebook</a>`:''} ${l.messenger?`· <a class="link" target="_blank" rel="noopener" href="${esc(l.messenger)}">Messenger</a>`:''}</div></td><td><span class="status ${cls(l.status)}">${esc(l.status)}</span></td><td>${l.queue==='For Follow up'?'<span class="status s-For-Follow-up">For Follow up</span>':(l.status==='For Follow up'?'<span class="status s-For-Follow-up">For Follow up</span>':'<span class="muted">—</span>')}</td><td class="${overdue?'overdue':''}">${fmt(l.nextFollow)} ${overdue?'· OVERDUE':''}</td><td>${engagementCell}</td>${details}<td><div class="actions">${view==='archived'?'—':(quick||'<span class="muted">—</span>')}</div></td><td><div class="actions"><button class="outline small" onclick="editLead('${l.id}')">View / Edit</button><button class="outline small" onclick="showHistory('${l.id}')">History</button>${archiveAction}</div></td></tr>`;
+ }).join('');
+ $('empty').classList.toggle('hidden',rows.length>0);
+ $('leadRows').parentElement.classList.toggle('hidden',rows.length===0);
+ $('statusTabs').classList.toggle('hidden',view==='archived');
+ $('filter').disabled=view==='archived';
+}
+function fieldsFor(l={}){
+ const s=l.status||'Inquiry',v=l;
+ let html='';
+ if(['Setting of Appointment','For Presentation'].includes(s)){
+  html+=`<div class="section">Appointment details</div><div class="grid"><div class="group"><label>Appointment date</label><input id="appointmentDate" type="date" value="${esc(v.appointmentDate||'')}"></div><div class="group wide"><label>Appointment notes</label><textarea id="appointmentNotes" rows="2">${esc(v.appointmentNotes||'')}</textarea></div></div>`;
+ }
+ if(s==='Presented'){
+  html+=`<div class="section">Presentation details</div><div class="grid"><div class="group"><label>Date Presented</label><input id="presentedDate" type="date" value="${esc(v.presentedDate||'')}"></div><div class="group"><label>Projected Plan</label><input id="targetPlan" value="${esc(v.targetPlan||'')}"></div><div class="group"><label>Projected APE</label><input id="targetAPE" type="number" min="0" step="0.01" value="${esc(v.targetAPE||'')}"></div><div class="group"><label>Date for Closing</label><input id="closingDate" type="date" value="${esc(v.closingDate||'')}"></div><div class="group wide"><label>Reason not closed yet</label><textarea id="reasonNotClosed" rows="2">${esc(v.reasonNotClosed||'')}</textarea></div></div>`;
+ }
+ if(s==='For Closing'){
+  html+=`<div class="section">Closing details</div><div class="grid"><div class="group"><label>Date Presented</label><input id="presentedDate" type="date" value="${esc(v.presentedDate||'')}"></div><div class="group"><label>Projected Plan</label><input id="targetPlan" value="${esc(v.targetPlan||'')}"></div><div class="group"><label>Projected APE</label><input id="targetAPE" type="number" min="0" step="0.01" value="${esc(v.targetAPE||'')}"></div><div class="group"><label>Date for Closing</label><input id="closingDate" type="date" value="${esc(v.closingDate||'')}"></div><div class="group wide"><label>Reason not closed yet</label><textarea id="reasonNotClosed" rows="2">${esc(v.reasonNotClosed||'')}</textarea></div></div>`;
+ }
+ if(s==='Closed'){
+  html+=`<div class="section">Policy details</div><div class="grid"><div class="group"><label>Date policy issued</label><input id="policyDate" type="date" value="${esc(v.policyDate||'')}"></div><div class="group"><label>Policy number</label><input id="policyNumber" value="${esc(v.policyNumber||'')}"></div><div class="group"><label>Plan</label><input id="plan" value="${esc(v.plan||'')}"></div><div class="group"><label>APE</label><input id="ape" type="number" min="0" step="0.01" value="${esc(v.ape||'')}"></div></div>`;
+ }
+ return html;
+}
+function openModal(l){
+ $('leadForm').reset();$('leadId').value=l?.id||'';
+ $('modalTitle').textContent=l?'Edit lead':'Add lead';
+ $('deleteBtn').style.visibility=l?'visible':'hidden';
+ ['name','mobile','facebook','messenger','birthdate','occupation','address','status','nextFollow','generalNotes'].forEach(k=>$(k).value=l?.[k]|| (k==='status'?'Inquiry':''));
+ $('inquiryDate').value=(l?.inquiryDate||((l?.history||[]).slice(-1)[0]?.at||today())).slice(0,7);
+ $('status').innerHTML=statusOptions(l?.status||'Inquiry');
+ $('conditionalFields').innerHTML=fieldsFor(l||{status:'Inquiry'});
+ $('status').onchange=()=>{$('conditionalFields').innerHTML=fieldsFor({...l,status:$('status').value,...readConditional()})};
+ $('modalBack').style.display='flex';
+}
+function readConditional(){const ids=['appointmentDate','appointmentNotes','presentedDate','reasonNotClosed','targetPlan','targetAPE','closingDate','policyDate','policyNumber','plan','ape'];let o={};ids.forEach(k=>{if($(k))o[k]=$(k).value});return o}
+async function saveLead(e){
+ e.preventDefault();const id=$('leadId').value,old=leads.find(x=>x.id===id),s=$('status').value;
+ let l={...(old||{id:makeId(),history:[]})};
+ ['name','mobile','facebook','messenger','birthdate','occupation','address','status','nextFollow'].forEach(k=>l[k]=$(k).value);
+ l.inquiryDate=$('inquiryDate').value;
+ l.generalNotes=$('generalNotes').value;Object.assign(l,readConditional());l.updated=stamp();
+ if(old&&old.status!==s){l.queue='';log(l,'Status changed',`${old.status} → ${s}`);}
+ if(!old)l.queue='';
+
+ if(!old)log(l,'Lead created','New lead added');
+ if(!old||old.status!==s) { if(s==='Presented'&&!l.presentedDate)l.presentedDate=today(); if(s==='Closed'&&!l.policyDate)l.policyDate=today(); }
+ if(old)leads=leads.map(x=>x.id===id?l:x);else leads.unshift(l);
+ const ok=await save();if(ok){$('modalBack').style.display='none';toast('Lead saved successfully');}
+}
+async function action(id,kind){
+ const l=leads.find(x=>x.id===id);if(!l)return;
+ const retainedStatus=l.status;
+ // Follow-up is a separate queue, not a pipeline status change.
+ l.queue='For Follow up';l.lastApproached=today();l.lastEngagementAt=stamp();l.lastEngagementType=kind;l.nextFollow=addDays(today(),3);l.updated=stamp();
+ log(l,kind,`${fmt(today())} · Original status retained: ${retainedStatus} · Added to For Follow up queue · Next follow-up ${fmt(l.nextFollow)}`);
+ if(await save())toast(`${kind} recorded. Original status retained · Follow-up set for ${fmt(l.nextFollow)}`);
+}
+async function noShow(id){const l=leads.find(x=>x.id===id);if(!l)return;const retainedStatus=l.status;l.queue='For Follow up';l.lastEngagementAt=stamp();l.lastEngagementType='No show';l.updated=stamp();l.nextFollow=addDays(today(),3);log(l,'No show',`Status retained as ${retainedStatus}. Routed to For Follow up queue · Next follow-up ${fmt(l.nextFollow)}`);if(await save())toast('No show recorded · Status retained as For Presentation · Added to For Follow up queue')}
+async function archiveLead(id,archived){
+ const l=leads.find(x=>x.id===id);if(!l)return;
+ l.archived=archived;l.updated=stamp();
+ log(l,archived?'Archived lead':'Restored lead',`Original status retained: ${l.status}`);
+ if(await save())toast(archived?'Lead moved to Archived Leads':'Lead restored to active leads');
+}
+function editLead(id){const l=leads.find(x=>x.id===id);if(l)openModal(l)}
+function showHistory(id){
+ const l=leads.find(x=>x.id===id);if(!l)return;$('activityTitle').textContent=l.name+' · Activity history';
+ $('activityBody').innerHTML=(l.history||[]).length?(l.history||[]).map(h=>`<div class="activity"><strong>${esc(h.type)}</strong><div class="muted">${new Date(h.at).toLocaleString()}</div>${h.detail?`<div>${esc(h.detail)}</div>`:''}</div>`).join(''):'<div class="empty">No activity recorded yet.</div>';
+ $('activityBack').style.display='flex';
+}
+async function deleteLead(){const id=$('leadId').value;if(!id)return;if(confirm('Delete this lead and all its activity history?')){leads=leads.filter(l=>l.id!==id);if(await save()){$('modalBack').style.display='none';toast('Lead deleted')}}}
+function exportCSV(){
+ const cols=['name','inquiryDate','facebook','messenger','birthdate','age','lastEngagementAt','lastEngagementType','occupation','address','mobile','status','queue','nextFollow','appointmentDate','appointmentNotes','presentedDate','reasonNotClosed','targetPlan','targetAPE','closingDate','policyDate','policyNumber','plan','ape'];
+ const csv=[cols.join(','),...leads.map(l=>cols.map(k=>{const value=k==='age'?(getAge(l.birthdate)??''):l[k]??'';return '"'+String(value).replaceAll('"','""')+'"'}).join(','))].join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='facebook-ads-leads.csv';a.click();URL.revokeObjectURL(a.href);
+}
+$('addBtn').onclick=()=>openModal(null);$('closeModal').onclick=$('cancelBtn').onclick=()=>$('modalBack').style.display='none';
+$('closeActivity').onclick=$('closeActivity2').onclick=()=>$('activityBack').style.display='none';
+$('leadForm').onsubmit=saveLead;$('deleteBtn').onclick=deleteLead;$('exportBtn').onclick=exportCSV;
+function refreshMonthFilter(){
+ const sel=$('monthFilter'),keep=sel.value;
+ const months=[...new Set(leads.map(l=>(l.inquiryDate||'').slice(0,7)).filter(Boolean))].sort().reverse();
+ sel.innerHTML='<option value="">All inquiry months</option>'+months.map(m=>{const d=new Date(m+'-15T12:00:00');return `<option value="${m}">${d.toLocaleDateString(undefined,{month:'long',year:'numeric'})}</option>`}).join('');
+ sel.value=months.includes(keep)?keep:'';
+}
+$('search').oninput=render;$('filter').onchange=render;$('sort').onchange=render;$('monthFilter').onchange=render;$('ageFilter').onchange=render;$('clearFilters').onclick=()=>{$('search').value='';$('filter').value='';$('monthFilter').value='';$('ageFilter').value='';$('sort').value='updated';render()};
+$('filter').innerHTML='<option value="">All statuses</option>'+STATUSES.map(s=>`<option>${s}</option>`).join('');
+document.querySelectorAll('.status-tab').forEach(b=>b.onclick=()=>{$('filter').value=b.dataset.status;render()});
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{view=b.dataset.view;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));if(view!=='archived')$('filter').value='';render()});
+(async()=>{leads=await load();leads.forEach(l=>{if(l.status==='Archived Leads'){l.status=l.previousStatus||'Inquiry';l.archived=true;}});render();const el=$('storageStatus');if(el)el.textContent='Loaded '+leads.length+' lead(s) from this browser';})();
+</script>
+</body></html>
